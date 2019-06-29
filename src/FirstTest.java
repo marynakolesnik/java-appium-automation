@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FirstTest {
@@ -43,11 +44,12 @@ public class FirstTest {
     }
 
     @Test
-    public void testCancelSearchEx3() {
-        // Ex3 task
+    public void testCancelSearchEx3Ex4() {
+        String searchText = "Java";
+        // Ex3,Ex4 task
         waitForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_container"),
-                "Appium",
+                searchText,
                 "Cannot find 'Search Wikipedia' input"
         );
 
@@ -60,6 +62,8 @@ public class FirstTest {
         Assert.assertTrue(
                 "Cannot find results on the page",
                 articles.size() > 5 );
+
+        checkResultContains(articles, searchText);
 
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_close_btn"),
@@ -159,6 +163,22 @@ public class FirstTest {
         return waitForElementPresent(
                 By.xpath("//*[contains(@text, 'Search…')]"),
                 "Cannot find 'Search…' text in input"
+        );
+    }
+
+    private void checkResultContains(List<WebElement> articles, String searchText) {
+        List<String> results = new ArrayList<>();
+        for (WebElement el : articles) {
+            if (el.getAttribute("text").contains(searchText)) {
+                results.add(el.getAttribute("text"));
+            }
+        }
+
+        System.out.println(results);
+        Assert.assertEquals(
+                "Some article(s) without the search word",
+                articles.size(),
+                results.size()
         );
     }
 }
