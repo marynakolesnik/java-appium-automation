@@ -76,6 +76,17 @@ public class FirstTest {
         );
     }
 
+
+    @Test
+    public void testSearchEx2() {
+        // Ex2 task
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input"
+        );
+        checkSearchField();
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -116,9 +127,9 @@ public class FirstTest {
     }
 
     private WebElement waitForElementAndClick(By by, String error_message) {
-         WebElement element =  waitForElementPresent(by, error_message);
-         element.click();
-         return element;
+        WebElement element =  waitForElementPresent(by, error_message);
+        element.click();
+        return element;
     }
 
     private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
@@ -144,4 +155,10 @@ public class FirstTest {
         return waitForElementAndClear(by, error_message, timeoutInSeconds);
     }
 
+    private WebElement checkSearchField() {
+        return waitForElementPresent(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Cannot find 'Search…' text in input"
+        );
+    }
 }
